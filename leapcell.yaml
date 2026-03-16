@@ -5,11 +5,11 @@ service:
   command: gunicorn --bind 0.0.0.0:$PORT --timeout 600 app:app
   build_command: |
     pip install -r requirements.txt
-    # Force install into the current app directory
-    PLAYWRIGHT_BROWSERS_PATH=$await_dir/.cache python -m playwright install chromium
-    PLAYWRIGHT_BROWSERS_PATH=$await_dir/.cache python -m playwright install-deps chromium
+    # We use a local folder in the build root
+    python -m playwright install chromium
+    python -m playwright install-deps chromium
   env:
     - SUPABASE_URL
     - SUPABASE_SERVICE_ROLE_KEY
-    # Tell the runtime where to look for the browser
-    - PLAYWRIGHT_BROWSERS_PATH=/app/.cache
+    # This is the magic line that tells the LIVE app where the build put the browser
+    - PLAYWRIGHT_BROWSERS_PATH=/home/leapcell/.cache/ms-playwright
