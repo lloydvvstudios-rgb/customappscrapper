@@ -1,0 +1,12 @@
+service:
+  name: vvstudios-scraper
+  type: web
+  runtime: python3.10
+  command: gunicorn --bind 0.0.0.0:$PORT app:app
+  build_command: |
+    pip install -r requirements.txt
+    playwright install chromium
+    playwright install-deps chromium
+  env:
+    - SUPABASE_URL- https://xgtnbxdxbbywvzrttixf.supabase.co
+    - SUPABASE_SERVICE_ROLE_KEY - 
