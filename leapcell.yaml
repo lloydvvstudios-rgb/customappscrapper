@@ -1,15 +1,15 @@
 service:
   name: vvstudios-scraper
   type: web
-  runtime: python3.10
+  runtime: python3.12
   command: gunicorn --bind 0.0.0.0:$PORT --timeout 600 app:app
   build_command: |
     pip install -r requirements.txt
-    # We use a local folder in the build root
-    python -m playwright install chromium
-    python -m playwright install-deps chromium
+    # Install browsers directly into a folder in your project
+    PLAYWRIGHT_BROWSERS_PATH=./playwright_browsers python -m playwright install chromium
+    PLAYWRIGHT_BROWSERS_PATH=./playwright_browsers python -m playwright install-deps chromium
   env:
     - SUPABASE_URL
     - SUPABASE_SERVICE_ROLE_KEY
-    # This is the magic line that tells the LIVE app where the build put the browser
-    - PLAYWRIGHT_BROWSERS_PATH=/home/leapcell/.cache/ms-playwright
+    # Tell the live app to look in that same project folder
+    - PLAYWRIGHT_BROWSERS_PATH=/app/playwright_browsers
