@@ -3,7 +3,9 @@ import asyncio
 import requests
 from flask import Flask, request, jsonify
 from playwright.async_api import async_playwright
-import playwright_stealth
+
+# Ensure Playwright looks in the right place before anything else happens
+os.environ['PLAYWRIGHT_BROWSERS_PATH'] = os.path.join(os.getcwd(), '.cache')
 
 app = Flask(__name__)
 
