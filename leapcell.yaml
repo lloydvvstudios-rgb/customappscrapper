@@ -8,5 +8,5 @@ service:
     playwright install chromium
     playwright install-deps chromium
   env:
-    - SUPABASE_URL- https://xgtnbxdxbbywvzrttixf.supabase.co
-    - SUPABASE_SERVICE_ROLE_KEY - 
+    - SUPABASE_URL
+    - SUPABASE_SERVICE_ROLE_KEY
