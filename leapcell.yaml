@@ -2,14 +2,10 @@ service:
   name: vvstudios-scraper
   type: web
   runtime: python3.12
-  command: gunicorn --bind 0.0.0.0:$PORT --timeout 600 app:app
-  build_command: |
-    pip install -r requirements.txt
-    # Install browsers directly into a folder in your project
-    PLAYWRIGHT_BROWSERS_PATH=./playwright_browsers python -m playwright install chromium
-    PLAYWRIGHT_BROWSERS_PATH=./playwright_browsers python -m playwright install-deps chromium
+  # Start the init script first, THEN start the web server
+  command: python init_browser.py && gunicorn --bind 0.0.0.0:$PORT --timeout 600 app:app
+  build_command: pip install -r requirements.txt
   env:
     - SUPABASE_URL
     - SUPABASE_SERVICE_ROLE_KEY
-    # Tell the live app to look in that same project folder
-    - PLAYWRIGHT_BROWSERS_PATH=/app/playwright_browsers
+    - PLAYWRIGHT_BROWSERS_PATH=/app/.cache
